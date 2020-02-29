@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:flutter_siswa_laravel/src/api/api_service.dart';
 import 'package:flutter_siswa_laravel/src/model/siswa.dart';
+//import 'package:flutter_siswa_laravel/src/ui/formadd/form_add_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-//        ApiService().getSiswa().then((value) => print("value : $value"))
     this.context = context;
     return SafeArea(
       child: FutureBuilder(
@@ -27,8 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context, AsyncSnapshot<List<Siswa>> snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: new Text(
-                  "Something Wrong with Message : ${snapshot.error.toString()}"),
+              child: Text(
+                  "Something wrong with message: ${snapshot.error.toString()}"),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             List<Siswa> siswas = snapshot.data;
@@ -42,25 +43,99 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-Widget _buildListView(List<Siswa> siswas) {
-  return new Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-    child: ListView.builder(itemBuilder: (context, index) {
-      Siswa siswa = siswas[index];
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text(
-              siswa.name,
-              style: Theme.of(context).textTheme.title,
-            )
-          ],
-        ),
-      );
-    }),
-  );
+  Widget _buildListView(List<Siswa> siswas) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          Siswa siswa = siswas[index];
+          return Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      siswas[index].name,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    Text(siswas[index].name),
+                    Text(siswas[index].alamat.toString()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+//                        FlatButton(
+//                          onPressed: () {
+//                            showDialog(
+//                                context: context,
+//                                builder: (context) {
+//                                  return AlertDialog(
+//                                    title: Text("Warning"),
+//                                    content: Text(
+//                                        "Are you sure want to delete data profile ${siswa.name}?"),
+//                                    actions: <Widget>[
+//                                      FlatButton(
+//                                        child: Text("Yes"),
+//                                        onPressed: () {
+//                                          Navigator.pop(context);
+//                                          apiService
+////                                              .deleteProfile(profile.id)
+//                                              .then((isSuccess) {
+//                                            if (isSuccess) {
+//                                              setState(() {});
+//                                              Scaffold.of(this.context)
+//                                                  .showSnackBar(SnackBar(
+//                                                  content: Text(
+//                                                      "Delete data success")));
+//                                            } else {
+//                                              Scaffold.of(this.context)
+//                                                  .showSnackBar(SnackBar(
+//                                                  content: Text(
+//                                                      "Delete data failed")));
+//                                            }
+//                                          });
+//                                        },
+//                                      ),
+//                                      FlatButton(
+//                                        child: Text("No"),
+//                                        onPressed: () {
+//                                          Navigator.pop(context);
+//                                        },
+//                                      )
+//                                    ],
+//                                  );
+//                                });
+//                          },
+//                          child: Text(
+//                            "Delete",
+//                            style: TextStyle(color: Colors.red),
+//                          ),
+//                        ),
+//                        FlatButton(
+//                          onPressed: () {
+//                            Navigator.push(context,
+//                                MaterialPageRoute(builder: (context) {
+//                                  return FormAddScreen(profile: profile);
+//                                }));
+//                          },
+//                          child: Text(
+//                            "Edit",
+//                            style: TextStyle(color: Colors.blue),
+//                          ),
+//                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+        itemCount: siswas.length,
+      ),
+    );
+  }
 }

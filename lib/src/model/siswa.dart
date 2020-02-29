@@ -6,7 +6,7 @@ class Siswa {
   String alamat;
 
 
-  Siswa({this.id = 0, this.name, this.alamat});
+  Siswa({this.id, this.name, this.alamat});
 
   factory Siswa.fromJson(Map<String, dynamic> map) {
     return Siswa(
